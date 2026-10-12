@@ -3,7 +3,7 @@
 from pyspark.sql import functions as F
 
 # Read source table
-df = spark.table("pii_demo.pii_source.employees")
+df = spark.table("databeli_pii_demo.pii_source.employees")
 
 # Define categorical generalization mapping for job titles
 # Specific job titles will be grouped into broader categories
@@ -29,7 +29,7 @@ df_generalized = df.withColumn("job_title_generalized", mapping_expr) \
     .withColumnRenamed("job_title_generalized", "job_title")
 
 # Write to target table
-df_generalized.write.mode("overwrite").saveAsTable("pii_demo.pii_target.employees_categorical_generalized")
+df_generalized.write.mode("overwrite").saveAsTable("databeli_pii_demo.pii_target.employees_categorical_generalized")
 
 print("Categorical generalization applied successfully!")
 print(f"Total records processed: {df_generalized.count()}")

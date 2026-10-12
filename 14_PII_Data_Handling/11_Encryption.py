@@ -1,7 +1,7 @@
 # Databricks notebook source
 # DBTITLE 1,Read Source Table
 # Read the source table containing PII data
-source_table = "pii_demo.pii_source.customers"
+source_table = "databeli_pii_demo.pii_source.customers"
 
 df_source = spark.table(source_table)
 
@@ -57,7 +57,7 @@ display(df_encrypted.limit(3))
 
 # DBTITLE 1,Write Hashed Data to Target Table
 # Define target table path
-target_table = "pii_demo.pii_target.customers_encrypted"
+target_table = "databeli_pii_demo.pii_target.customers_encrypted"
 
 # Write the encrypted dataframe to the target table
 # Using overwrite mode to replace any existing data
@@ -73,7 +73,7 @@ print(f"✓ Total records written: {df_encrypted.count()}")
 
 # DBTITLE 1,Query Encrypted Data
 # MAGIC %sql
-# MAGIC SELECT * FROM pii_demo.pii_target.customers_encrypted
+# MAGIC SELECT * FROM databeli_pii_demo.pii_target.customers_encrypted
 
 # COMMAND ----------
 
@@ -92,7 +92,7 @@ SELECT
     CAST(aes_decrypt(unbase64(address), '{encryption_key}') AS STRING) AS address,
     CAST(aes_decrypt(unbase64(city), '{encryption_key}') AS STRING) AS city,
     country
-FROM pii_demo.pii_target.customers_encrypted
+FROM databeli_pii_demo.pii_target.customers_encrypted
 LIMIT 10
 """
 
@@ -103,7 +103,7 @@ display(df_decrypted)
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC create schema if not exists pii_demo.access_control
+# MAGIC create schema if not exists databeli_pii_demo.access_control
 
 # COMMAND ----------
 
@@ -112,7 +112,7 @@ display(df_decrypted)
 # MAGIC -- Create a UDF in the access_control schema to decrypt PII data
 # MAGIC -- This UDF can be used by authorized users to decrypt encrypted columns
 # MAGIC
-# MAGIC CREATE OR REPLACE FUNCTION pii_demo.access_control.decrypt_pii(encrypted_value STRING)
+# MAGIC CREATE OR REPLACE FUNCTION databeli_pii_demo.access_control.decrypt_pii(encrypted_value STRING)
 # MAGIC RETURNS STRING
 # MAGIC RETURN CAST(aes_decrypt(unbase64(encrypted_value), 'MySecureKey12345') AS STRING);
 
@@ -125,13 +125,13 @@ display(df_decrypted)
 # MAGIC
 # MAGIC SELECT 
 # MAGIC     customer_id,
-# MAGIC     pii_demo.access_control.decrypt_pii(full_name) AS full_name,
-# MAGIC     pii_demo.access_control.decrypt_pii(email) AS email,
-# MAGIC     pii_demo.access_control.decrypt_pii(phone) AS phone,
-# MAGIC     pii_demo.access_control.decrypt_pii(ssn) AS ssn,
-# MAGIC     pii_demo.access_control.decrypt_pii(date_of_birth) AS date_of_birth,
-# MAGIC     pii_demo.access_control.decrypt_pii(address) AS address,
-# MAGIC     pii_demo.access_control.decrypt_pii(city) AS city,
+# MAGIC     databeli_pii_demo.access_control.decrypt_pii(full_name) AS full_name,
+# MAGIC     databeli_pii_demo.access_control.decrypt_pii(email) AS email,
+# MAGIC     databeli_pii_demo.access_control.decrypt_pii(phone) AS phone,
+# MAGIC     databeli_pii_demo.access_control.decrypt_pii(ssn) AS ssn,
+# MAGIC     databeli_pii_demo.access_control.decrypt_pii(date_of_birth) AS date_of_birth,
+# MAGIC     databeli_pii_demo.access_control.decrypt_pii(address) AS address,
+# MAGIC     databeli_pii_demo.access_control.decrypt_pii(city) AS city,
 # MAGIC     country
-# MAGIC FROM pii_demo.pii_target.customers_encrypted
+# MAGIC FROM databeli_pii_demo.pii_target.customers_encrypted
 # MAGIC LIMIT 5;

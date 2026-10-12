@@ -1,10 +1,10 @@
 -- Databricks notebook source
-create catalog pii_demo
+create catalog databeli_pii_demo
 
 -- COMMAND ----------
 
-create schema pii_demo.pii_source
+create schema databeli_pii_demo.pii_source
 
 -- COMMAND ----------
 
-create schema pii_demo.pii_target
+create schema databeli_pii_demo.pii_target

@@ -1,7 +1,7 @@
 # Databricks notebook source
 # DBTITLE 1,Load source data from web_logs
 # Read the source data
-df_web_logs = spark.table("pii_demo.pii_source.web_logs")
+df_web_logs = spark.table("databeli_pii_demo.pii_source.web_logs")
 
 # Display sample data to verify
 display(df_web_logs.limit(5))
@@ -25,13 +25,13 @@ display(df_truncated.limit(5))
 
 # DBTITLE 1,Write truncated data to target table
 # Write the truncated data to the target table
-df_truncated.write.mode("overwrite").saveAsTable("pii_demo.pii_target.web_logs_ip_truncated")
+df_truncated.write.mode("overwrite").saveAsTable("databeli_pii_demo.pii_target.web_logs_ip_truncated")
 
-print("Data successfully written to pii_demo.pii_target.web_logs_ip_truncated")
+print("Data successfully written to databeli_pii_demo.pii_target.web_logs_ip_truncated")
 print(f"Total records processed: {df_truncated.count()}")
 
 # COMMAND ----------
 
 # DBTITLE 1,Verify the truncated IP addresses in target table
 # MAGIC %sql
-# MAGIC select * from pii_demo.pii_target.web_logs_ip_truncated
+# MAGIC select * from databeli_pii_demo.pii_target.web_logs_ip_truncated

@@ -1,7 +1,7 @@
 # Databricks notebook source
 # DBTITLE 1,Read Source Table
 # Read the source table containing PII data
-source_table = "pii_demo.pii_source.customers"
+source_table = "databeli_pii_demo.pii_source.customers"
 
 df_source = spark.table(source_table)
 
@@ -51,7 +51,7 @@ display(df_hashed.limit(3))
 
 # DBTITLE 1,Write Hashed Data to Target Table
 # Define target table path
-target_table = "pii_demo.pii_target.customers_hashed"
+target_table = "databeli_pii_demo.pii_target.customers_hashed"
 
 # Write the hashed dataframe to the target table
 # Using overwrite mode to replace any existing data
@@ -66,4 +66,4 @@ print(f"✓ Total records written: {df_hashed.count()}")
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC select * from pii_demo.pii_target.customers_hashed
+# MAGIC select * from databeli_pii_demo.pii_target.customers_hashed

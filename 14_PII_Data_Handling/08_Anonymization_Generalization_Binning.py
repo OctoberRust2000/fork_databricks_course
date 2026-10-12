@@ -7,7 +7,7 @@ from pyspark.sql.functions import col, when, year, months_between, floor, curren
 
 # DBTITLE 1,Read Source Table
 # Read source table
-df = spark.read.table("pii_demo.pii_source.customers")
+df = spark.read.table("databeli_pii_demo.pii_source.customers")
 
 # Display sample records
 display(df.limit(5))
@@ -57,16 +57,16 @@ df_final.groupBy("age_range").count().orderBy("age_range").display()
 
 # DBTITLE 1,Write to Target Table
 # Write to target table
-df_final.write.mode("overwrite").saveAsTable("pii_demo.pii_target.customers_binning")
+df_final.write.mode("overwrite").saveAsTable("databeli_pii_demo.pii_target.customers_binning")
 
-print("✓ Data successfully written to pii_demo.pii_target.customers_binning")
+print("✓ Data successfully written to databeli_pii_demo.pii_target.customers_binning")
 print(f"✓ Total records processed: {df_final.count()}")
 
 # COMMAND ----------
 
 # DBTITLE 1,Verify Results
 # Read the target table to verify
-df_result = spark.read.table("pii_demo.pii_target.customers_binning")
+df_result = spark.read.table("databeli_pii_demo.pii_target.customers_binning")
 
 print("\nSample binned data:")
 display(df_result.limit(10))

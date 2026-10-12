@@ -1,7 +1,7 @@
 # Databricks notebook source
 # DBTITLE 1,Read Source Table
 # Read the source table
-df_employees = spark.table("pii_demo.pii_source.employees")
+df_employees = spark.table("databeli_pii_demo.pii_source.employees")
 
 # Display the original data
 print("Original Data:")
@@ -31,11 +31,11 @@ display(df_anonymized)
 # Write the anonymized data to the target table
 df_anonymized.write \
     .mode("overwrite") \
-    .saveAsTable("pii_demo.pii_target.employees_rounded")
+    .saveAsTable("databeli_pii_demo.pii_target.employees_rounded")
 
-print("✓ Data successfully written to pii_demo.pii_target.employees_rounded")
+print("✓ Data successfully written to databeli_pii_demo.pii_target.employees_rounded")
 
 # Verify the written data
-df_verify = spark.table("pii_demo.pii_target.employees_rounded")
+df_verify = spark.table("databeli_pii_demo.pii_target.employees_rounded")
 print(f"\nTotal records written: {df_verify.count()}")
 display(df_verify)

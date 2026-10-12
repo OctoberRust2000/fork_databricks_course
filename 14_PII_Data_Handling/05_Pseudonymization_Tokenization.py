@@ -5,7 +5,7 @@ from pyspark.sql.window import Window
 import uuid
 
 # Read the source customer table
-source_df = spark.table("pii_demo.pii_source.customers")
+source_df = spark.table("databeli_pii_demo.pii_source.customers")
 
 print(f"Total records: {source_df.count()}")
 display(source_df.limit(5))
@@ -50,21 +50,21 @@ display(customers_tokenized_df.limit(10))
 
 # DBTITLE 1,Write tokenized data and lookup table to target locations
 # Write the tokenized customer data to target table
-customers_tokenized_df.write.mode("overwrite").saveAsTable("pii_demo.pii_target.customers_tokenized")
+customers_tokenized_df.write.mode("overwrite").saveAsTable("databeli_pii_demo.pii_target.customers_tokenized")
 
 # Write the email token lookup table
-email_lookup_df.select("token", "email").write.mode("overwrite").saveAsTable("pii_demo.pii_target.email_token_lookup")
+email_lookup_df.select("token", "email").write.mode("overwrite").saveAsTable("databeli_pii_demo.pii_target.email_token_lookup")
 
 print("✓ Tokenization complete!")
-print("✓ Created table: pii_demo.pii_target.customers_tokenized")
-print("✓ Created table: pii_demo.pii_target.email_token_lookup")
+print("✓ Created table: databeli_pii_demo.pii_target.customers_tokenized")
+print("✓ Created table: databeli_pii_demo.pii_target.email_token_lookup")
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC select * from pii_demo.pii_target.customers_tokenized
+# MAGIC select * from databeli_pii_demo.pii_target.customers_tokenized
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC select * from pii_demo.pii_target.email_token_lookup
+# MAGIC select * from databeli_pii_demo.pii_target.email_token_lookup

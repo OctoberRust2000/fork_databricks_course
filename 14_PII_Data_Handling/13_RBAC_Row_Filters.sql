@@ -1,9 +1,9 @@
 -- Databricks notebook source
-select * from pii_demo.pii_target.customers
+select * from databeli_pii_demo.pii_target.customers
 
 -- COMMAND ----------
 
-CREATE OR REPLACE FUNCTION pii_demo.access_control.country_filter(country STRING)
+CREATE OR REPLACE FUNCTION databeli_pii_demo.access_control.country_filter(country STRING)
 RETURN 
   CASE 
     WHEN is_account_group_member('manager') THEN TRUE
@@ -13,9 +13,9 @@ RETURN
 
 -- COMMAND ----------
 
-ALTER TABLE pii_demo.pii_target.customers
-SET ROW FILTER pii_demo.access_control.country_filter ON (country);
+ALTER TABLE databeli_pii_demo.pii_target.customers
+SET ROW FILTER databeli_pii_demo.access_control.country_filter ON (country);
 
 -- COMMAND ----------
 
-select * from pii_demo.pii_target.customers
+select * from databeli_pii_demo.pii_target.customers
