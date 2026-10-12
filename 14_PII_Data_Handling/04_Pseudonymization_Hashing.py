@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "6"
+# ///
 # DBTITLE 1,Read Source Table
 # Read the source table containing PII data
 source_table = "databeli_pii_demo.pii_source.customers"
@@ -15,6 +19,7 @@ display(df_source.limit(3))
 # Apply different hashing functions to each PII column using built-in PySpark functions
 # Keep non-PII columns (customer_id, country) unchanged
 from pyspark.sql import functions as F
+
 df_hashed = df_source.select(
     # Non-PII column - keep as is
     F.col("customer_id"),
@@ -55,10 +60,12 @@ target_table = "databeli_pii_demo.pii_target.customers_hashed"
 
 # Write the hashed dataframe to the target table
 # Using overwrite mode to replace any existing data
-df_hashed.write \
-    .format("delta") \
-    .mode("overwrite") \
-    .saveAsTable(target_table)
+(
+    df_hashed.write
+        .format("delta")
+        .mode("overwrite")
+        .saveAsTable(target_table)
+)
 
 print(f"✓ Hashed data successfully written to: {target_table}")
 print(f"✓ Total records written: {df_hashed.count()}")

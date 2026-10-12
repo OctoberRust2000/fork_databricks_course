@@ -19,3 +19,8 @@ SET ROW FILTER databeli_pii_demo.access_control.country_filter ON (country);
 -- COMMAND ----------
 
 select * from databeli_pii_demo.pii_target.customers
+
+-- COMMAND ----------
+
+-- Cleanup: row filter on country
+ALTER TABLE databeli_pii_demo.pii_target.customers DROP ROW FILTER;

@@ -1,11 +1,11 @@
 -- Databricks notebook source
--- DBTITLE 1,Created View
+-- DBTITLE 1,Created View - CTAS
 create or replace view databeli_pii_demo.pii_target.customers_suppressed
 as select 
-customer_id,
-country
- from databeli_pii_demo.pii_target.customers
+    customer_id,
+    country
+from databeli_pii_demo.pii_target.customers
 
 -- COMMAND ----------
 
-select* from databeli_pii_demo.pii_target.customers_suppressed
+select * from databeli_pii_demo.pii_target.customers_suppressed

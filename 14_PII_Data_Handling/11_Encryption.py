@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "6"
+# ///
 # DBTITLE 1,Read Source Table
 # Read the source table containing PII data
 source_table = "databeli_pii_demo.pii_source.customers"
@@ -61,10 +65,12 @@ target_table = "databeli_pii_demo.pii_target.customers_encrypted"
 
 # Write the encrypted dataframe to the target table
 # Using overwrite mode to replace any existing data
-df_encrypted.write \
-    .format("delta") \
-    .mode("overwrite") \
-    .saveAsTable(target_table)
+(
+    df_encrypted.write
+        .format("delta")
+        .mode("overwrite")
+        .saveAsTable(target_table)
+)
 
 print(f"✓ Encrypted data successfully written to: {target_table}")
 print(f"✓ Total records written: {df_encrypted.count()}")

@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "6"
+# ///
 # DBTITLE 1,Import libraries and read source data
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
@@ -17,11 +21,16 @@ display(source_df.limit(5))
 def generate_token():
     return str(uuid.uuid4())
 
+# Create DataFrame function to generate tokens
 generate_token_udf = F.udf(generate_token)
 
 # Get distinct emails and generate tokens for each
-email_lookup_df = source_df.select("email").distinct() \
-    .withColumn("token", generate_token_udf())
+email_lookup_df = (
+    source_df
+        .select("email")
+        .distinct()
+        .withColumn("token", generate_token_udf())
+)
 
 print(f"Unique emails: {email_lookup_df.count()}")
 display(email_lookup_df.limit(10))
@@ -30,18 +39,21 @@ display(email_lookup_df.limit(10))
 
 # DBTITLE 1,Join source data with tokens and create tokenized table
 # Join the source data with the email lookup to replace emails with tokens
-customers_tokenized_df = source_df.join(email_lookup_df, on="email", how="left") \
-    .select(
-        "customer_id",
-        "full_name",
-        F.col("token").alias("email_token"),
-        "phone",
-        "ssn",
-        "date_of_birth",
-        "address",
-        "city",
-        "country"
-    )
+customers_tokenized_df = (
+    source_df
+        .join(email_lookup_df, on="email", how="left")
+        .select(
+            "customer_id",
+            "full_name",
+            F.col("token").alias("email_token"),
+            "phone",
+            "ssn",
+            "date_of_birth",
+            "address",
+            "city",
+            "country"
+        )
+)
 
 print(f"Tokenized records: {customers_tokenized_df.count()}")
 display(customers_tokenized_df.limit(10))

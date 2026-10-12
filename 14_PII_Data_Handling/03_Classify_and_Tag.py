@@ -1,4 +1,9 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "6"
+# ///
+# DBTITLE 1,Read from source and erite to catalog
 df_source = spark.read.table("databeli_pii_demo.pii_source.customers")
 df_source.write.mode("overwrite").saveAsTable("databeli_pii_demo.pii_target.customers")
 

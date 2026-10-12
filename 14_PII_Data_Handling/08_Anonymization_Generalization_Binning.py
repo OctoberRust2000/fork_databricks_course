@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "6"
+# ///
 # DBTITLE 1,Apply Binning on Date of Birth
 from pyspark.sql import functions as F
 from pyspark.sql.functions import col, when, year, months_between, floor, current_date

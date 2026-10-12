@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "6"
+# ///
 # DBTITLE 1,Apply Categorical Generalization on Job Title
 from pyspark.sql import functions as F
 
@@ -16,17 +20,21 @@ job_category_mapping = {
 }
 
 # Create a mapping expression using CASE WHEN
-mapping_expr = F.when(F.col("job_title") == "Software Engineer", "Engineering") \
-    .when(F.col("job_title") == "Data Scientist", "Data & Analytics") \
-    .when(F.col("job_title") == "Product Manager", "Management") \
-    .when(F.col("job_title") == "Sales Executive", "Sales & Business") \
-    .when(F.col("job_title") == "HR Manager", "Management") \
+mapping_expr = (
+    F.when(F.col("job_title") == "Software Engineer", "Engineering")
+    .when(F.col("job_title") == "Data Scientist", "Data & Analytics")
+    .when(F.col("job_title") == "Product Manager", "Management")
+    .when(F.col("job_title") == "Sales Executive", "Sales & Business")
+    .when(F.col("job_title") == "HR Manager", "Management")
     .otherwise("Other")
+)
 
 # Apply categorical generalization
-df_generalized = df.withColumn("job_title_generalized", mapping_expr) \
-    .drop("job_title") \
-    .withColumnRenamed("job_title_generalized", "job_title")
+df_generalized = (
+    df.withColumn("job_title_generalized", mapping_expr)
+        .drop("job_title")
+        .withColumnRenamed("job_title_generalized", "job_title")
+)
 
 # Write to target table
 df_generalized.write.mode("overwrite").saveAsTable("databeli_pii_demo.pii_target.employees_categorical_generalized")

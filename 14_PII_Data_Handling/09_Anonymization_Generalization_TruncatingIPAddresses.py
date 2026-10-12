@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "6"
+# ///
 # DBTITLE 1,Load source data from web_logs
 # Read the source data
 df_web_logs = spark.table("databeli_pii_demo.pii_source.web_logs")
@@ -15,7 +19,7 @@ from pyspark.sql.functions import col, regexp_replace
 # Pattern matches the last octet (last number after the final dot)
 df_truncated = df_web_logs.withColumn(
     "ip_address",
-    regexp_replace(col("ip_address"), r"\d+$", "0")
+    regexp_replace(col("ip_address"), r"\d+$", "0") # replace last number with 0
 )
 
 # Display sample of truncated data

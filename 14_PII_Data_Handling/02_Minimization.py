@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "6"
+# ///
 # from pyspark.sql import SparkSession
 
 # # JDBC connection properties
@@ -24,8 +28,11 @@
 
 # COMMAND ----------
 
+# DBTITLE 1,Select only the columns which are required
 df_source = spark.read.table("databeli_pii_demo.pii_source.customers")
-df_minimized=df_source.select("customer_id", "city", "country") ## select only the columns which are reuiqred 
+
+df_minimized = df_source.select("customer_id", "city", "country") ## select only the columns which are required 
+
 df_minimized.write.mode("overwrite").saveAsTable("databeli_pii_demo.pii_target.customers_minimized")
 
 # COMMAND ----------

@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "6"
+# ///
 # DBTITLE 1,Read Source Table
 # Read the source table
 df_employees = spark.table("databeli_pii_demo.pii_source.employees")

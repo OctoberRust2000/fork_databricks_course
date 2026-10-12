@@ -89,14 +89,14 @@ END
 
 -- COMMAND ----------
 
--- DBTITLE 1,Create masked view with all functions
+-- DBTITLE 1,Apply mask to full name column
 -- Apply masking function to full_name column
 ALTER TABLE databeli_pii_demo.pii_target.customers 
 ALTER COLUMN full_name SET MASK databeli_pii_demo.access_control.mask_full_name
 
 -- COMMAND ----------
 
--- DBTITLE 1,Test masked view
+-- DBTITLE 1,Apply mask to email column
 -- Apply masking function to email column
 ALTER TABLE databeli_pii_demo.pii_target.customers 
 ALTER COLUMN email SET MASK databeli_pii_demo.access_control.mask_email
@@ -143,3 +143,15 @@ ALTER COLUMN city SET MASK databeli_pii_demo.access_control.mask_city
 -- If you're in admin group, you'll see original values
 -- Otherwise, you'll see masked values based on the column masks
 SELECT * FROM databeli_pii_demo.pii_target.customers LIMIT 5
+
+-- COMMAND ----------
+
+-- DBTITLE 1,Remove all column masks (cleanup)
+-- Cleanup: remove all column masks applied in this notebook
+ALTER TABLE databeli_pii_demo.pii_target.customers ALTER COLUMN full_name DROP MASK;
+ALTER TABLE databeli_pii_demo.pii_target.customers ALTER COLUMN email DROP MASK;
+ALTER TABLE databeli_pii_demo.pii_target.customers ALTER COLUMN phone DROP MASK;
+ALTER TABLE databeli_pii_demo.pii_target.customers ALTER COLUMN ssn DROP MASK;
+ALTER TABLE databeli_pii_demo.pii_target.customers ALTER COLUMN date_of_birth DROP MASK;
+ALTER TABLE databeli_pii_demo.pii_target.customers ALTER COLUMN address DROP MASK;
+ALTER TABLE databeli_pii_demo.pii_target.customers ALTER COLUMN city DROP MASK;
